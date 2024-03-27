@@ -1,0 +1,6 @@
+@ApiMina3_HostAddress = http://localhost:5241
+
+GET {{ApiMina3_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
