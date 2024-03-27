@@ -2,11 +2,13 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.AspNetCore.Cors;
 namespace ApiMina3.Controllers
 {
+    
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("MyPolicy")]
     public class MinaApiController : ControllerBase
     {
         private readonly TodoContext _context;
@@ -16,18 +18,18 @@ namespace ApiMina3.Controllers
             _context = context;
         }
 
-        /*
+        
         // GET: api/TodoItems
-        [HttpGet]
+        [HttpGet("EQT_Real_Time")]
         public async Task<ActionResult<IEnumerable<eqt_real_time>>> GetSuaTabela() //MinaApi
         {
             return await _context.Eqt_real_time.ToListAsync(); //todo item
         }
 
-        */
+       
 
         // GET: api/TodoItems
-        [HttpGet]
+        [HttpGet ("Joint_EQT_Resources")]
         public async Task<ActionResult<IEnumerable<object>>> GetDuasTabelas()
         {
             var dados = await _context.Eqt_real_time

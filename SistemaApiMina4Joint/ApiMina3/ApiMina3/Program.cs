@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.SqlServer;
 using ApiMina3.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Cors;
 
 
 namespace ApiMina3
@@ -36,7 +37,20 @@ namespace ApiMina3
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(); 
+
+
+            builder.Services.AddCors(options => {
+
+                options.AddPolicy(name: "MyPolicy",
+                    policy =>
+                    {
+                        policy.WithOrigins("http://127.0.0.1:5500").AllowAnyHeader().AllowAnyMethod();
+
+                    });
+
+
+            });
 
             var app = builder.Build();
 
@@ -51,15 +65,27 @@ namespace ApiMina3
 
             app.UseAuthorization();
 
-
+            app.UseCors("MyPolicy");
             app.MapControllers();
 
             app.Run();
+
         }
 
 
 
-    
+
+
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddControllers();
+            services.AddCors(o => o.AddPolicy("AllowAllOrigins", builder =>
+            {
+                builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+            }));
+        }
 
 
 
